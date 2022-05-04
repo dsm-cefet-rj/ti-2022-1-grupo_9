@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="./styles.css">
+    <script src="./functions.js"></script>
+</head>
+
+<body>
+    <nav>
+        <div class="nav-wrapper">
+            <div class="row">
+                <div class="col s1">
+                    <a href="#" class="brand-logo">
+                        <img height="13%" width="12%" src="img/villa-terracotta-logo-editado.png">
+                    </a>
+                </div>
+                <div class="col s7">
+                    <ul id="nav-mobile" class="right hide-on-med-and-down">
+                        <li><a href="home.html">Sobre a Pousada</a></li>
+                    </ul>
+                </div>
+                <div class="col s2">
+                    <ul id="nav-mobile" class="right hide-on-med-and-down">
+                        <a class='dropdown-trigger' href='#' data-target='dropdown1'>Area do Usuário</a>
+                        <ul id='dropdown1' class='dropdown-content'>
+                            <li><a href="cliente-listar-quartos.html">Buscar Quartos</a></li>
+                            <li><a href="cliente-listar-reservas.html">Listar Reservas</a></li>
+                            <li><a href="login.html">Login</a></li>
+                            <li><a href="registrar.html">Registrar</a></li>
+                            <li><a href="usuario-alterar-senha.html">Alterar Senha</a></li>
+                        </ul>
+                    </ul>
+                </div>
+
+                <div class="col s2">
+                    <ul id="nav-mobile" class="hide-on-med-and-down">
+                        <a class='dropdown-trigger' href='#' data-target='dropdown2'>Area do Admin</a>
+                        <ul id='dropdown2' class='dropdown-content'>
+                            <li><a href="admin-criar-quartos.html">Criar Quarto</a></li>
+                            <li><a href="admin-listar-quartos.html">Listar Quartos</a></li>
+                            <li><a href="admin-listar-reservas.html">Listar Reservas</a></li>
+                        </ul>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        </div>
+    </nav>
+    <div class="container">
+        <form class="col s12">
+            <div class="row">
+                <div class="input-field col s6">
+                    <input id="camaCasal" type="number" min="0" class="validate">
+                    <label for="camaCasal">Quantidade camas de Casal</label>
+                </div>
+                <div class="input-field col s6">
+                    <input id="camaSolteiro" type="number" min="0" class="validate">
+                    <label for="camaSolteiro">Quantidade camas de Solteiro</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-field col s6">
+                    <input id="valorDiaria" type="number" min="0" class="validate">
+                    <label for="valorDiaria">Valor Diaria</label>
+                </div>
+                <div class="col s6" style="margin-top: 1.4%;">
+                    <select>
+                        <option value="" disabled selected>Selecione o Tipo do Quarto</option>
+                        <option value="Suite">Suite</option>
+                        <option value="Normal">Normal</option>
+                    </select>
+                    <label>Tipo de Quarto</label>
+                </div>
+            </div>
+            <div class="row center-align">
+                <div class="col s12">
+                    <a class="waves-effect waves-light btn">Salvar</a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var elems = document.querySelectorAll('select');
+            var instances = M.FormSelect.init(elems);
+        });
+    </script>
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var elems = document.querySelectorAll('.dropdown-trigger');
+        var instances = M.Dropdown.init(elems);
+    });
+</script>
+
+</html>
