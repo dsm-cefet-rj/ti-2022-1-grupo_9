@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "../../shared/components/Button";
 
 export default (props) => {
     return (<div className="container">
@@ -19,7 +20,7 @@ export default (props) => {
         </div>
         <div className="row my-4">
             <div className="col-12 col-md-6">
-                <a className=" btn">Logar</a>
+                <Button title="Logar"></Button>
             </div>
         </div>
     </div>);

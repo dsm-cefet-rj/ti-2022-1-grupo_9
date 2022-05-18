@@ -1,24 +1,15 @@
 import React from "react";
 import imgQuarto from '../../assets/img/sample-1.jpg';
+import Card from "../../shared/components/Card";
 
 export default () => {
     return (
         <div className="container mt-4 ">
-            <div className="row justify-content-center ">
-                <div className="col-12 col-md-6">
-                    <div className="card">
-                        <div className="card-image">
-                            <img height="294px" width="392px" src={imgQuarto} />
-                            <span className="card-title">Quarto Suite</span>
-                        </div>
-                        <div className="card-content">
-                            <p>
-                                Quarto com banheiro exclusivo
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <Card content="Quarto com banheiro exclusivo"
+              image={imgQuarto} title="Quarto Suite"
+            >
+
+            </Card>
             <div className="row justify-content-center mt-2">
                 <div className="col-12 col-md-6">
                     <label className="form-label" for="hospedes">Quantidade de Hospedes</label>
@@ -36,11 +27,15 @@ export default () => {
                         <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="Boleto" />
                         <label className="form-check-label" for="inlineRadio2">Boleto</label>
                     </div>
+                    <div className="form-check form-check-inline">
+                        <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="Boleto" />
+                        <label className="form-check-label" for="inlineRadio3">Cartao de Crédito</label>
+                    </div>
                 </div>
             </div>
             <div className="row justify-content-center mt-2">
                 <div className="col-12 col-md-6 center-align">
-                    <a className="waves-effect waves-light btn">Salvar</a>
+                    <Button title="Criar Reserva"></Button>
                 </div>
             </div>
 

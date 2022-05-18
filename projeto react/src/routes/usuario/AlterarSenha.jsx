@@ -24,10 +24,6 @@ export default (props) => {
 
             </div>
         </div>
-        <div className="row">
-            <div className="col-12 col-md-6 center-align-md my-4">
-                <a className="btn">Salvar</a>
-            </div>
-        </div>
+        <Button title="Salvar"></Button>
     </div>);
 }

@@ -3,7 +3,9 @@ import './App.css';
 import './shared/styles/materialize.css'
 import Topbar from './layout/topbar/Topbar';
 
-import CriarReserva from './routes/cliente/CriarReserva';
+import Registrar from './routes/usuario/Registrar';
+import ListarReservasAdmin from './routes/admin/ListarReservasAdmin';
+import ListarQuartos from './routes/admin/ListarQuartos';
 
 function App() {
   return (
@@ -12,7 +14,7 @@ function App() {
       <Topbar>
       </Topbar>
 
-      <CriarReserva></CriarReserva>
+      <ListarQuartos></ListarQuartos>
     </div>
   );
 }
