@@ -20,7 +20,7 @@ export default (props) =>    {
                              {props.content}
                             
                         </div>
-                        <div className="card-action">
+                        <div role="button" className="card-action">
                             {actions(props)}
                         </div>
                     </div>
