@@ -4,3 +4,12 @@
 .nav-link{
     color: #fff;
 }
+
+.logo{
+    Display: flex;
+    align-self: left;
+    justify-content: left;
+    margin: auto; /* Se botar 'left', quando checa a responsividade o bgl dá uma bugada. */
+    height: 5%;
+    width: 5%;
+}
