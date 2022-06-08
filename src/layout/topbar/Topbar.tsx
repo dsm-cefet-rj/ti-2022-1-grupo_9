@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import "./Topbar.css";
 import { Link, useNavigate } from "react-router-dom";
 import imgLogo from "../../assets/img/villa-terracotta-logo-editado.png";
@@ -15,6 +14,7 @@ export default function Topbar(props) {
         SweetAlertService.SucessoPersonalizadoComTimer("Deslogado com Sucesso!", "você seá redirecionado em breve!");
         setTimeout(() => navigate("/", { replace: true }), 1800);
     }
+    
 
     return (
         <div className="topbar">

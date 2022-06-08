@@ -7,11 +7,15 @@ import fetchIntercept from 'fetch-intercept';
 import { BrowserRouter, useNavigate } from 'react-router-dom';
 import { HttpStatus } from './core/enums/http-status.enum';
 import SweetAlertService from './core/services/sweet-alert.service';
+import { Provider, useDispatch } from 'react-redux';
+import store from './core/store/store-config';
+import { desativar } from './core/reducers/loading.redux';
 
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
 
 
 const unregister = fetchIntercept.register({
@@ -46,12 +50,16 @@ const unregister = fetchIntercept.register({
   }
 });
 
+
 root.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </React.StrictMode>
+  <Provider store={store}>
+    <React.StrictMode>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </React.StrictMode>
+  </Provider>
+
 );
 
 

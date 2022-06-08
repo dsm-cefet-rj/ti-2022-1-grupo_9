@@ -18,6 +18,7 @@ import { useState } from 'react';
 import JwtService from './core/services/jwt.service';
 import { AuthGuard } from './core/security/auth.guard';
 import { AuthAdminGuard } from './core/security/auth-admin.guard';
+import Loading from './shared/components/Loading';
 
 function App() {
   const [isLogged, setLogged] = useState(JwtService.usuarioLogado());
@@ -26,6 +27,7 @@ function App() {
 
 
     <div className="App">
+      <Loading></Loading>
       <Topbar isLogged={isLogged} setLogged={setLogged} />
       <Routes>
         <Route path="/" element={<Home />} />

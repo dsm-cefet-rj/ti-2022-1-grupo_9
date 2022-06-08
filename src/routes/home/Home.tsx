@@ -1,9 +1,9 @@
-import React from "react";
 import bannerPousada from '../../assets/img/banner.jpg';
 import iconeWpp from '../../assets/img/wpp-icon.png';
 
 export default (props) => {
-    return (
+
+;    return (
         <div>
             <div className="container">
                 <div className="row" >

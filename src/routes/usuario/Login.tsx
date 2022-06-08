@@ -1,6 +1,8 @@
 import { STATUS_CODES } from "http";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { ativar, desativar } from "../../core/reducers/loading.redux";
 import JwttService from "../../core/services/jwt.service";
 import SweetAlertService from "../../core/services/sweet-alert.service";
 import { AuthService } from "../../services/auth.service";
@@ -10,11 +12,13 @@ export default (props) => {
     const [form, setForm] = useState({ email: "", senha: "" });
     let navigate = useNavigate();
 
-
+    const dispatch = useDispatch()
 
     async function login() {
+        dispatch(ativar());
         let response = await AuthService.Login(form);
-        
+        console.log("opa")
+        dispatch(desativar());
         if (response.status == 200) {
             let result = await response.json();
             localStorage.setItem("token", result);
