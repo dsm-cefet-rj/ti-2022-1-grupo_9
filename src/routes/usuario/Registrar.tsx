@@ -7,6 +7,7 @@ import { ConvertService } from "../../core/services/convert.service";
 import { useForm } from "react-hook-form";
 import { RegistrarModel } from "../../models/registrar.model";
 import { AuthService } from "../../services/auth.service";
+import { useNavigate } from "react-router-dom";
 
 export default (props) => {
     const schema = yup.object({
@@ -21,14 +22,19 @@ export default (props) => {
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm({ resolver: yupResolver(schema) });
 
-
+    let navigate = useNavigate();
     async function Criar() {
         if(Object.keys(errors).length) SweetAlertService.ErroformularioInvalido();
 
         let form = watch() as RegistrarModel
         let response = await AuthService.Registrar(form);
 
-        if (response.status == 200) SweetAlertService.SucessoPersonalizadoComTimer("Usuario Registrado com Sucesso", "");
+        if (response.status == 200){
+            
+            setTimeout(() => navigate("/usuario/login", { replace: true }), 1800);
+            SweetAlertService.SucessoPersonalizadoComTimer("Registro efetuado com sucesso!", "você será redirecionado em breve");
+            return;
+        }
     }
 
 

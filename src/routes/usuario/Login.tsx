@@ -17,7 +17,6 @@ export default (props) => {
     async function login() {
         dispatch(ativar());
         let response = await AuthService.Login(form);
-        console.log("opa")
         dispatch(desativar());
         if (response.status == 200) {
             let result = await response.json();

@@ -6,6 +6,8 @@ import Button from "../../shared/components/Button";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { QuartoService } from "../../services/quarto.service";
+import { HttpStatus } from "../../core/enums/http-status.enum";
+import { useNavigate } from "react-router-dom";
 
 
 export default () => {
@@ -17,12 +19,17 @@ export default () => {
     }).required();
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm({ resolver: yupResolver(schema) });
-
+    let navigate = useNavigate();
 
     async function criar() {
         var quarto = watch() as QuartoModel;
         ConvertService.StringToNumber(quarto);
-        await QuartoService.Criar(quarto);
+        var result = await QuartoService.Criar(quarto);
+        if(result.status == HttpStatus.OK){
+            setTimeout(() => navigate("/admin/listar-quartos", { replace: true }), 1800);
+            SweetAlertService.SucessoPersonalizadoComTimer("Quarto Registrado com Sucesso!", "você será redirecionado em breve");
+        }
+
     }
 
     return (

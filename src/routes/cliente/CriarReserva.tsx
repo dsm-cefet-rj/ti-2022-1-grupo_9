@@ -33,7 +33,6 @@ export default (props) => {
         fetch(`http://localhost:3030/Quarto/${quartoId}`, {
             method: 'GET',
         }).then(x => x.json()).then(data => setQuarto(data));
-
     }, []);
 
 
