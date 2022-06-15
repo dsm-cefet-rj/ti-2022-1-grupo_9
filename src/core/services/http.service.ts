@@ -18,7 +18,8 @@ async function client(endpoint, { body, ...customConfig }) {
     let data
     try {
         const response = await window.fetch(endpoint, config)
-        data = await response.json()
+
+        data = await response.json();
         if (response.ok) {
             return data
         }

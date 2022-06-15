@@ -24,7 +24,7 @@ export default (props) => {
     const [token, setToken] = useState(null);
 
     const store: any = useSelector((state) => state);
-    
+
     let navigate = useNavigate();
 
     const dispatch = useDispatch<typeof storeConfig.dispatch>()
@@ -33,7 +33,7 @@ export default (props) => {
         dispatch(ativar());
         const result = await dispatch(Logar(watch() as LoginModel))
         setToken(result.payload);
-        dispatch(desativar());
+        
         return;
     }
 
@@ -45,6 +45,7 @@ export default (props) => {
             SweetAlertService.SucessoPersonalizadoComTimer("Login Efetuado com sucesso!", "você será redirecionado em breve");
         }
         else if (store.login.status === "failed") SweetAlertService.ErroPersonalizadoSemTimer("Opss...", "Credenciais Invalidas");
+        if(store.login.status !== "loading") dispatch(desativar());
         
     },
         [store.login.status, token]);

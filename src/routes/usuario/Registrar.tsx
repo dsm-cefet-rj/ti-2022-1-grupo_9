@@ -30,7 +30,7 @@ export default (props) => {
     let navigate = useNavigate();
     async function Criar() {
         dispatch(ativar())
-        await dispatch(Registrar(watch() as RegistrarModel))
+        dispatch(Registrar(watch() as RegistrarModel))
     }
 
     useEffect(() =>{
