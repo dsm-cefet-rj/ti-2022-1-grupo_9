@@ -1,26 +1,12 @@
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { httpPost } from "../core/services/http.service";
 import { LoginModel } from "../models/login.model";
 import { RegistrarModel } from "../models/registrar.model";
 
-export class AuthService{
-    
-    static async Login(form: LoginModel){
-        var response = await fetch("http://localhost:3030/Auth/login", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(form),
-        })
-        return response;
-    }
-    static async Registrar(form: RegistrarModel){
-        let response = await fetch("http://localhost:3030/auth/register", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(form),
-        })
-        return response;
-    }
-}
+export const Registrar = createAsyncThunk('registrar', async (form: RegistrarModel) => {
+    return await httpPost("http://localhost:3030/auth/register", form);
+});
+
+export const Logar = createAsyncThunk('logar', async (form: LoginModel) => {
+    return await httpPost("http://localhost:3030/Auth/login", form);
+});

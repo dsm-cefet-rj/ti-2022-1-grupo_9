@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Button from "../../shared/components/Button";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
@@ -6,8 +6,11 @@ import SweetAlertService from "../../core/services/sweet-alert.service";
 import { ConvertService } from "../../core/services/convert.service";
 import { useForm } from "react-hook-form";
 import { RegistrarModel } from "../../models/registrar.model";
-import { AuthService } from "../../services/auth.service";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { ativar, desativar } from "../../core/reducers/loading.redux";
+import { Registrar } from "../../services/auth.service";
+import storeConfig from "../../core/store/store-config";
 
 export default (props) => {
     const schema = yup.object({
@@ -22,20 +25,22 @@ export default (props) => {
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm({ resolver: yupResolver(schema) });
 
+    const store: any = useSelector((state) => state)
+    const dispatch = useDispatch<typeof storeConfig.dispatch>()
     let navigate = useNavigate();
     async function Criar() {
-        if(Object.keys(errors).length) SweetAlertService.ErroformularioInvalido();
-
-        let form = watch() as RegistrarModel
-        let response = await AuthService.Registrar(form);
-
-        if (response.status == 200){
-            
-            setTimeout(() => navigate("/usuario/login", { replace: true }), 1800);
-            SweetAlertService.SucessoPersonalizadoComTimer("Registro efetuado com sucesso!", "você será redirecionado em breve");
-            return;
-        }
+        dispatch(ativar())
+        await dispatch(Registrar(watch() as RegistrarModel))
     }
+
+    useEffect(() =>{
+        if(store.registrar.status == "success"){
+            SweetAlertService.SucessoPersonalizadoComTimer("Registrado com Sucesso", "você será redirecionado em breve!");
+            setTimeout(() => navigate("/", { replace: true }), 1800);
+        }
+        else if(store.registrar.status !== "loading") dispatch(desativar());
+        else if(store.registrar.status === "failed") SweetAlertService.ErroPadraoSemTimer();
+    }, [store.registrar.status])
 
 
     return (
