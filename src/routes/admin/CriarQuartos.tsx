@@ -1,44 +1,81 @@
 import { useForm } from "react-hook-form";
 import { ConvertService } from "../../core/services/convert.service";
 import SweetAlertService from "../../core/services/sweet-alert.service";
-import {QuartoModel } from "../../models/quarto.model";
+import { QuartoModel } from "../../models/quarto.model";
 import Button from "../../shared/components/Button";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { QuartoService } from "../../services/quarto.service";
 import { HttpStatus } from "../../core/enums/http-status.enum";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { FormularioHelper } from "../../core/helpers/formulario.helper";
+import { useEffect, useState } from "react";
 
 
 export default () => {
     const schema = yup.object({
-        camaCasal: yup.number().positive().integer().required(),
-        camaSolteiro: yup.number().positive().integer().required(),
-        valorDiaria: yup.number().positive().integer().required(),
+        camaCasal: yup.number().required(),
+        camaSolteiro: yup.number().required(),
+        valorDiaria: yup.number().required(),
         tipo: yup.string().required(),
     }).required();
 
-    const { register, handleSubmit, watch, formState: { errors } } = useForm({ resolver: yupResolver(schema) });
+
+    const { register,setValue, handleSubmit, watch, formState: { errors } } = useForm({ resolver: yupResolver(schema) });
+
     let navigate = useNavigate();
 
-    async function criar() {
-        var quarto = watch() as QuartoModel;
-        ConvertService.StringToNumber(quarto);
+    let params = useParams();
+
+    useEffect(() => {
+        if(params.id != null){
+            obterPorId();
+        }
+    }, [params]);
+
+    async function obterPorId(){
+        let quarto = await QuartoService.ObterPorId(params.id);
+        setValue("tipo", quarto.tipo);
+        setValue("camaCasal", quarto.camaCasal);
+        setValue("camaSolteiro", quarto.camaSolteiro);
+        setValue("valorDiaria", quarto.valorDiaria);
+    }
+
+    async function criar(quarto: QuartoModel) {
         var result = await QuartoService.Criar(quarto);
-        if(result.status == HttpStatus.OK){
+        if (result.status == HttpStatus.OK) {
             setTimeout(() => navigate("/admin/listar-quartos", { replace: true }), 1800);
             SweetAlertService.SucessoPersonalizadoComTimer("Quarto Registrado com Sucesso!", "você será redirecionado em breve");
         }
+    }
 
+    async function editar(quarto: QuartoModel){
+        var result = await QuartoService.Editar(quarto);
+        if (result.status == HttpStatus.OK) {
+            setTimeout(() => navigate("/admin/listar-quartos", { replace: true }), 1800);
+            SweetAlertService.SucessoPersonalizadoComTimer("Quarto Editado com Sucesso!", "você será redirecionado em breve");
+        }
+    }
+
+    async function criarOuEditar(){
+        if (FormularioHelper.ExisteErro(errors)) return SweetAlertService.ErroformularioInvalido(errors);
+        let quarto = watch() as QuartoModel;
+        quarto._id = params.id;
+        ConvertService.StringToNumber(quarto);
+        if(params.id == null)
+            criar(quarto);
+        else
+            editar(quarto);
+        
     }
 
     return (
         <div className="container mt-4">
-            <form>
+            <form onSubmit={handleSubmit(() => { })}>
                 <div className="row">
                     <div className="col-12 col-md-6">
                         <label htmlFor="camaCasal">Quantidade camas de Casal</label>
-                        <input id="camaCasal" {...register("camaCasal")}
+                        <input  id="camaCasal" {...register("camaCasal")}
                             type="number" min="0" className="form-control" />
                     </div>
                     <div className="col-12 col-md-6">
@@ -56,17 +93,16 @@ export default () => {
                     </div>
                     <div className="col-12 col-md-6">
                         <label>Tipo de Quarto</label>
-                        <select defaultValue="" {...register("tipo")} className="form-select" aria-label="Default select example">
+                        <select {...register("tipo")} className="form-select" aria-label="Default select example">
                             <option disabled value="" selected>Selecione o tipo</option>
                             <option value="Suite">Suite</option>
                             <option value="Normal">Normal</option>
                         </select>
-
                     </div>
                 </div>
                 <div className="row center-align mt-4">
                     <div className="col s12">
-                        <Button function={criar} title="salvar" />
+                        <Button type="submit" function={criarOuEditar} title="salvar" />
                     </div>
                 </div>
             </form>

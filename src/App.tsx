@@ -37,6 +37,11 @@ function App() {
           </AuthAdminGuard>
         }>
         </Route>
+        <Route path="admin/editar-quarto/:id" element={
+            <AuthAdminGuard>
+              <CriarQuartos />
+            </AuthAdminGuard>}>
+        </Route>
         <Route path="admin/listar-reservas" element={
           <AuthAdminGuard>
             <ListarReservasAdmin />

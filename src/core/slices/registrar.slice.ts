@@ -1,22 +1,11 @@
-import { createAsyncThunk, createEntityAdapter,createSlice } from "@reduxjs/toolkit";
-import { useDispatch } from "react-redux";
-import { LoginModel } from "../../models/login.model";
-import { RegistrarModel } from "../../models/registrar.model";
-import { Logar, Registrar } from "../../services/auth.service";
-import { ativar } from "../reducers/loading.redux";
-import { httpPost } from "../services/http.service";
+import {createEntityAdapter,createSlice } from "@reduxjs/toolkit";
+import { Registrar } from "../../services/auth.service";
 
 const registrar = createEntityAdapter();
 const initialState = registrar.getInitialState({
     status: 'not_loaded',
     error: null
 });
-
-
-
-
-
-
 
 export const registrarSlice = createSlice({
     name: 'registrar',

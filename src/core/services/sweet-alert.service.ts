@@ -2,10 +2,10 @@ import Swal from "sweetalert2";
 
 export default class SweetAlertService {
 
-    static ErroformularioInvalido(){
+    static ErroformularioInvalido(errors){
         return Swal.fire({
-            title: 'Opss...',
-            text: 'Formulário Inválido!',
+            title: 'Opss, Formulário Inválido!',
+            text: this.obterErrosFormulario(errors),
             icon: 'error',
             confirmButtonText: 'OK',
         })
@@ -37,6 +37,15 @@ export default class SweetAlertService {
         })
     }
 
+    static WarningPersonalizadoSemTimer(title, text){
+        return Swal.fire({
+            title: title,
+            text: text,
+            icon: 'warning',
+            confirmButtonText: 'OK',
+        })
+    }
+
     static SucessoPersonalizadoComTimer(title, text){
         return Swal.fire({
             icon: 'success',
@@ -45,5 +54,24 @@ export default class SweetAlertService {
             showConfirmButton: false,
             timer: 1500
           });
+    }
+
+    static SucessoPadraoComTimer(){
+        return Swal.fire({
+            icon: 'success',
+            title: "Tudo certo!",
+            text:"Sua ação foi realizada com sucesso!",
+            showConfirmButton: false,
+            timer: 1500
+          });
+    }
+
+    private static obterErrosFormulario(errors){
+        let message = '';
+        for(let error in errors){
+            message += errors[error].message + " -";
+        }
+        console.log(message);
+        return message;
     }
 }

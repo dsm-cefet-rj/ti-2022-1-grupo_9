@@ -4,12 +4,11 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import fetchIntercept from 'fetch-intercept';
-import { BrowserRouter, useNavigate } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { HttpStatus } from './core/enums/http-status.enum';
 import SweetAlertService from './core/services/sweet-alert.service';
-import { Provider, useDispatch } from 'react-redux';
+import { Provider} from 'react-redux';
 import store from './core/store/store-config';
-import { desativar } from './core/reducers/loading.redux';
 
 
 const root = ReactDOM.createRoot(
@@ -23,29 +22,31 @@ const unregister = fetchIntercept.register({
     if (config.headers == null) config.headers = {};
     config.headers["Content-Type"] = "application/json";
     if (localStorage.getItem("token")) config.headers.authorization = localStorage.getItem("token");
-
-    // Modify the url or config here
+    
     return [url, config];
   },
 
   requestError: function (error) {
-    // Called when an error occured during another 'request' interceptor call
     return Promise.reject(error);
   },
 
   response: function (response) {
-
     if (response.status == HttpStatus.UNAUTHORIZED) {
       localStorage.removeItem("token");
       window.location.href = "/usuario/login";
     }
-    if (response.status === HttpStatus.INTERNAL_SERVER_ERROR) {
+    else if (response.status === HttpStatus.INTERNAL_SERVER_ERROR) {
       SweetAlertService.ErroPadraoSemTimer();
+    }
+    else if(response.status === HttpStatus.FORBIDDEN) SweetAlertService.ErroPersonalizadoSemTimer("Não Autorizado!", "")
+    else if(response.status != HttpStatus.OK){
+      response.text().then(x => SweetAlertService.ErroPersonalizadoSemTimer("Opss..", x));
     }
     return response;
   },
 
   responseError: function (error) {
+    SweetAlertService.ErroPadraoSemTimer();
     return Promise.reject(error);
   }
 });
@@ -62,9 +63,5 @@ root.render(
 
 );
 
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
 

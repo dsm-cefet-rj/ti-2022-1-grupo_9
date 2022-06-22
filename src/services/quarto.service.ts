@@ -13,12 +13,30 @@ export class QuartoService {
         })
         return response;
     }
+    static async Editar(quarto: QuartoModel) {
+        var response = await fetch("http://localhost:3030/Quarto", {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(quarto),
+        })
+        return response;
+    }
     static async Obter() {
         let response = await fetch("http://localhost:3030/Quarto", {
             method: 'GET',
         });
         let json = await response.json();
         return json as QuartoModel[];
+    }
+
+    static async ObterPorId(id: string) {
+        let response = await fetch(`http://localhost:3030/Quarto/${id}`, {
+            method: 'GET',
+        });
+        let json = await response.json();
+        return json as QuartoModel;
     }
     static async Deletar(id: string) {
         let response = await fetch(`http://localhost:3030/Quarto/${id}`, {
@@ -31,7 +49,7 @@ export class QuartoService {
         let response = await fetch(`http://localhost:3030/Quarto/${intervalo.dataEntrada}/${intervalo.dataSaida}`, {
             method: 'GET',
         });
-        let result = await response.json();
+        let result: QuartoModel[] = await response.json();
         return result;
     }
 }

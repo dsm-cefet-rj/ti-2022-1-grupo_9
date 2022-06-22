@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import imgQuarto from '../../assets/img/sample-1.jpg';
 import SweetAlertService from "../../core/services/sweet-alert.service";
 import { QuartoModel } from "../../models/quarto.model";
@@ -66,7 +66,9 @@ export default () => {
                             Quarto com banheiro exclusivo
                         </div>
                         <div role="button" className="card-action">
-                            <a aria-valuetext={x._id}>Editar</a>
+                            <Link to={"/admin/editar-quarto/" + x._id}>
+                                <a aria-valuetext={x._id}>Editar</a>
+                            </Link>
                             <a aria-valuetext={x._id} onClick={deletarQuarto}>Deletar</a>
                         </div>
                     </div>
