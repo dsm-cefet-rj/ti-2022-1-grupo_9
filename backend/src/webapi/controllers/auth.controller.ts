@@ -9,6 +9,7 @@ import { LoginDTO } from '../../application/dtos/login.dto';
 import { RegisterModel } from '../../application/models/register.model';
 import { AlterarSenhaModel } from '../../application/models/alterar-senha.model';
 import { JwtService } from '../services/jwt.service';
+import { authorization } from '../middlewares/authorization';
 
 export class AuthController extends BaseController {
     public router: Router = Router();
@@ -16,7 +17,7 @@ export class AuthController extends BaseController {
         super();
         this.router.post("/login", this.Login);
         this.router.post("/register", this.Registrar);
-        this.router.post("/alterar-senha", this.AlterarSenha);
+        this.router.post("/alterar-senha",authorization(), this.AlterarSenha);
     }
     private async Login(request: Request, response: Response, next: NextFunction) {
         try{
